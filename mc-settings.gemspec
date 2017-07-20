@@ -37,7 +37,6 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/modcloth/mc-settings}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.3}
   s.summary = %q{Manage settings per environment}
   s.test_files = [
     "spec/mc_settings_spec.rb",
