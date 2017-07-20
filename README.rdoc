@@ -6,7 +6,7 @@ This gem provides an easy and Capistrano-friendly way to manage application conf
 multiple environments, such as development, QA, staging, production, etc.
 
 Applications typically rely on configuration settings, such as host names, URLs, usernames and many
-more. Some change between environemnts, some do not.  This gem assumes that application configuration 
+more. Some change between environments, some do not.  This gem assumes that application configuration 
 is represented by a Hash of arbitrary depth, and provides convenient and compact syntax to access the 
 settings through a singleton instance inside Setting class.
 
