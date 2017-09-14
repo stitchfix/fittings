@@ -8,6 +8,7 @@ GEM
   specs:
     diff-lcs (1.3)
     rake (12.1.0)
+    rdoc (5.1.0)
     rspec (3.6.0)
       rspec-core (~> 3.6.0)
       rspec-expectations (~> 3.6.0)
@@ -28,6 +29,7 @@ PLATFORMS
 DEPENDENCIES
   fittings!
   rake
+  rdoc
   rspec
 
 BUNDLED WITH
