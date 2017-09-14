@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "VERSION",
     "lib/mc-settings.rb",
     "lib/setting.rb",
+    "lib/fittings.rb",
     "fittings.gemspec",
     "spec/fixtures/joes-colors.yml",
     "spec/fixtures/sample.yml",
