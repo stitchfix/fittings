@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{mc-settings}
-  s.version = "0.1.6"
+  s.name = "fittings"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Edwin Cruz", "Colin Shield"]
   s.date = %q{2011-09-06}
-  s.description = %q{implement custom keys indenendently of environment}
-  s.email = %q{rubydev@modcloth.com}
+  s.description = %q{implement custom keys independently of environment}
+  s.email = %q{eng@stitchfix.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
     "VERSION",
     "lib/mc-settings.rb",
     "lib/setting.rb",
-    "mc-settings.gemspec",
+    "fittings.gemspec",
     "spec/fixtures/joes-colors.yml",
     "spec/fixtures/sample.yml",
     "spec/fixtures/shipping.yml",
@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
     "spec/spec_helper.rb",
     "spec/support/settings_helper.rb"
   ]
-  s.homepage = %q{http://github.com/modcloth/mc-settings}
+  s.homepage = %q{http://github.com/stitchfix/fittings}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.summary = %q{Manage settings per environment}
@@ -45,7 +45,6 @@ Gem::Specification.new do |s|
   ]
 
   s.add_development_dependency "rspec"
-  s.add_development_dependency "jeweler"
-  s.add_development_dependency "rdoc"
+  s.add_development_dependency "rake"
 end
 
