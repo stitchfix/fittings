@@ -1,4 +1,6 @@
-= Application Settings Manager
+= fittings
+
+This is a fork of ModCloth's mc-settings gem which has gone unmaintained and has deprection warnings.  This modernizes that and will be maintained.
 
 == Summary 
 
