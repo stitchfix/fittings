@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>README - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="file">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+  <ul class="link-list" role="directory">
+    <li><a href="#label-fittings">fittings</a>
+    <li><a href="#label-Install">Install</a>
+    <li><a href="#label-Why+is+it+Setting-3F">Why is it Setting?</a>
+    <li><a href="#label-Summary+">Summary </a>
+    <li><a href="#label-Usage+in+Code">Usage in Code</a>
+    <li><a href="#label-Loading+Settings">Loading Settings</a>
+    <li><a href="#label-Nested+Hashes+and+Default+Values">Nested Hashes and Default Values</a>
+    <li><a href="#label-Capistrano+Recommendations">Capistrano Recommendations</a>
+    <li><a href="#label-Copyright">Copyright</a>
+  </ul>
+</div>
+
+
+  <div id="project-metadata">
+    <div id="fileindex-section" class="nav-section">
+  <h3>Pages</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./README_rdoc.html">README</a>
+  
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-label="Page README.rdoc">
+
+<h1 id="label-fittings">fittings<span><a href="#label-fittings">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>This is a fork of ModCloth&#39;s mc-settings gem which has gone
+unmaintained and has deprection warnings.  This modernizes that and will be
+maintained.</p>
+
+<h2 id="label-Install">Install<span><a href="#label-Install">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Add to your <code>Gemfile</code>:</p>
+
+<pre class="ruby"><span class="ruby-identifier">gem</span> <span class="ruby-string">&quot;fittings&quot;</span>
+</pre>
+
+<p>For Rails, create <code>config/settings/default.yml</code> as well as
++config/settings/environments/{development,testing,production}.yml+.</p>
+
+<p>Then, in <code>config/environment.rb</code>, before the call to
+<code>initialize!</code>:</p>
+
+<pre class="ruby"><span class="ruby-constant">Setting</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">path</span><span class="ruby-operator">:</span>  <span class="ruby-node">&quot;#{Rails.root}/config/settings&quot;</span>,
+             <span class="ruby-identifier">files</span><span class="ruby-operator">:</span> [<span class="ruby-string">&quot;default.yml&quot;</span>, <span class="ruby-node">&quot;environments/#{Rails.env}.yml&quot;</span>])
+</pre>
+
+<h3 id="label-Why+is+it+Setting-3F">Why is it Setting?<span><a href="#label-Why+is+it+Setting-3F">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>This is a fork of the mc-settings gem that is intended to be
+backwards-compatible.</p>
+
+<h2 id="label-Summary+">Summary <span><a href="#label-Summary+">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>This gem provides an easy and Capistrano-friendly way to manage application
+configuration across  multiple environments, such as development, QA,
+staging, production, etc.</p>
+
+<p>Applications typically rely on configuration settings, such as host names,
+URLs, usernames and many more. Some change between environments, some do
+not.  This gem assumes that application configuration  is represented by a
+<a href="Hash.html">Hash</a> of arbitrary depth, and provides convenient
+and compact syntax to access the  settings through a singleton instance
+inside <a href="Setting.html">Setting</a> class.</p>
+
+<p>Configuration is stored in one or more YAML files with the top-level data
+structure being a <a href="Hash.html">Hash</a>,  with keys being the names
+of individual settings. For example, consider the following sample 
+application configuration file:</p>
+
+<pre>tax:
+  default: 0.0
+  california: 7.5
+states:
+  default: 
+    - &#39;CA&#39;
+    - &#39;WA&#39;
+    - &#39;NY&#39;
+  ship_to:
+    - &#39;CA&#39;
+    - &#39;NY&#39;
+math_pi: 3.14159526</pre>
+
+<p><a href="Setting.html">Setting</a> Gem provides <a
+href="Setting.html#method-c-load">Setting.load</a> method to load
+configuration from files in a way that allows  some configuration files to
+override previously loaded values, and then offers a simple method API  to
+access the values, for example Setting.tax(:california) or Setting.tax. 
+Supporting default values in 2nd, 3rd, .. - level hashes is one of the
+advantages of using this gem.</p>
+
+<p>By loading configuration from YAML files, <a
+href="Setting.html">Setting</a> gem is inherently compatible with
+Capistrano deployment  methodology, where a certain set of files may become
+“activated” by simply sym-linking them into  the appropriate settings
+folder.</p>
+
+<p>Note: using example above, “1st level” hash is the one with keys “tax”,
+“states” and “math_pi”.</p>
+
+<p>2nd-level hash is, for example, the tax definition one, with keys “default”
+and “california”.</p>
+
+<h2 id="label-Usage+in+Code">Usage in Code<span><a href="#label-Usage+in+Code">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Once configuration is initialized using <a
+href="Setting.html#method-i-load">Setting#load</a> or Setting#reload
+methods (see below), they can be used in  code in the following way:</p>
+<ul><li>
+<p>Setting.key_name is optimized to return default value if available instead
+of a <a href="Hash.html">Hash</a>.</p>
+</li><li>
+<p>Setting.key_name(:sub_key_name) returns a value from the 2nd level hash.</p>
+</li><li>
+<p>Setting.key_name(:sub_key_name, :sub_sub_key_name) returns value from the
+3rd level hash if available. The algorithm is recursive, so only the
+maximum method stack depth will limit the number of nested hash values you
+can access this way.</p>
+</li><li>
+<p>Special syntax <a href=":key_name">Setting</a>, <a
+href=":key_name">Setting</a>[:sub_key_name], etc also supported. This
+method, however, does not support default values (see below).</p>
+</li></ul>
+
+<p>Method notation is recommended over square bracket notation for accessing
+single values. However,  square bracket notation may be useful when you
+want to fetch the entire 2nd level hash that  includes the default value,
+instead of the default value itself.</p>
+
+<p>For example, given the above YAML file, you can access the settings in your
+code as follows:</p>
+
+<pre>Setting.tax =&gt; 0.0
+Setting.tax(:california) =&gt; 7.5
+Setting.math_pi =&gt; 3.14159526
+Setting[:math_pi] =&gt; 3.14159526
+Setting.states =&gt; [ &#39;CA&#39;, &#39;WA&#39;, &#39;NY&#39; ]
+Setting.states[&#39;ship_to&#39;] =&gt; [ &#39;CA&#39;, &#39;NY&#39; ]</pre>
+
+<p>Method-calling notation allows passing an array of keys to fetch a value
+from a nested hash.</p>
+
+<p>This method also supports returning a default value, stored against the
+“default” key.</p>
+
+<pre>Setting.tax =&gt; 0.0</pre>
+
+<p>Square bracket syntax returns the actual nested hash, without any regard
+for the default value:</p>
+
+<pre>Setting[:tax] =&gt; { &#39;default&#39; =&gt; 0.0, &#39;california&#39; =&gt; 7.5 }</pre>
+
+<h2 id="label-Loading+Settings">Loading Settings<span><a href="#label-Loading+Settings">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>The gem should be initialized in your environment.rb (if using Rails), or
+in any other application initialization block.  <a
+href="Setting.html#method-c-load">Setting.load</a> method is provided for
+loading settings, and it can be called only once in application lifecycle,
+or it will throw an exception.  If you need to reload settings completely,
+you can use reload() method with similar arguments.</p>
+
+<p>Consider an example:</p>
+
+<pre class="ruby"><span class="ruby-constant">Setting</span>.<span class="ruby-identifier">load</span>(:<span class="ruby-identifier">path</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{Rails.root}/config/settings&quot;</span>,
+             :<span class="ruby-identifier">files</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;default.yml&quot;</span>, <span class="ruby-node">&quot;environments/#{Rails.env}.yml&quot;</span>],
+             :<span class="ruby-identifier">local</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+</pre>
+
+<p>The argument is an options hash that configures which YAML files to load,
+in what order, and from where.</p>
+<ul><li>
+<p>path specifies the “root” folder where settings files will be loaded from</p>
+</li><li>
+<p>files is an array that lists file names relative to the :path. In the
+example above, settings folder contains subfolder “environments” where
+Rails-specific environment files are located (such as “development.yml”,
+“staging.yml”, “production.yml”, etc)</p>
+</li><li>
+<p>local can be optionally specified as a true value, and if specified <a
+href="Setting.html">Setting</a> gem will load all *.yml files that live
+under the :path/local folder.</p>
+</li></ul>
+
+<p>Below is list of YAML files loaded in order specified in the above example,
+assuming that “development” is the Rails environment, and “local” folder
+exists with 3 additional YAML files in it:</p>
+
+<pre class="ruby"><span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">default</span>.<span class="ruby-identifier">yml</span>
+<span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">environments</span><span class="ruby-operator">/</span><span class="ruby-identifier">development</span>.<span class="ruby-identifier">yml</span>
+<span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">local</span><span class="ruby-operator">/</span><span class="ruby-identifier">authorize</span><span class="ruby-operator">-</span><span class="ruby-identifier">net</span>.<span class="ruby-identifier">yml</span>
+<span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">local</span><span class="ruby-operator">/</span><span class="ruby-identifier">paypal</span>.<span class="ruby-identifier">yml</span>
+<span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">local</span><span class="ruby-operator">/</span><span class="ruby-identifier">other</span>.<span class="ruby-identifier">yml</span>
+</pre>
+
+<p>Each YML file defines a ruby <a href="Hash.html">Hash</a>.  During file
+loading, the hashes are merged,  so that values loaded in early files may
+be overwritten by values in subsequent  files. This is deliberate and by
+design: it allows you to create small “override”  files for each
+environment, or even each machine you want to deploy to. Exactly  how you
+split your application settings in files is up to you.</p>
+
+<h2 id="label-Nested+Hashes+and+Default+Values">Nested Hashes and Default Values<span><a href="#label-Nested+Hashes+and+Default+Values">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>MC <a href="Setting.html">Setting</a> gem provides a convenient way to
+access nested values, including full  support for the default values within
+nested hashes (as of 0.1.1).</p>
+
+<p>Consider the following nested hash example:</p>
+
+<p>default.yml:</p>
+
+<pre>services: 
+  inventory:
+    url: http://ims.mycompany.com:3443/inventory_manager
+    name: Inventory Management
+  shipping:
+    url: http://ship.mycompany.com:3443/shipper
+    name: Shipping
+
+Setting.load(:files =&gt; [&#39;default.yml&#39;], :path =&gt; ...)
+
+Setting.services(:inventory)       =&gt; { :url =&gt; &quot;http://localhost:3443/inventory_manager&quot; :name =&gt; &quot;Inventory Management&quot;}
+Setting.services(:inventory, :url) =&gt; &quot;http://localhost:3443/inventory_manager&quot;</pre>
+
+<p>staging.yml</p>
+
+<p>We are changing URLs for services in staging.yml, so they work in the
+staging environment.  Service URLs have been updated to use localhost:</p>
+
+<pre>services: 
+  inventory:
+    url: http://localhost:8009/inventory_manager
+  shipping:
+    url: http://localhost:8008/shipper
+
+Setting.load(:files =&gt; [&#39;default.yml&#39;, &#39;staging.yml&#39;], :path =&gt; ...)
+
+Setting.services(:inventory)       =&gt; { :url =&gt; &quot;http://localhost:8009/inventory_manager&quot; :name =&gt; &quot;Inventory Management&quot;}
+Setting.services(:inventory, :url) =&gt; &quot;http://localhost:8008/inventory_manager&quot;</pre>
+
+<h2 id="label-Capistrano+Recommendations">Capistrano Recommendations<span><a href="#label-Capistrano+Recommendations">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Assume the directory structure of your Rails application is as follows:</p>
+
+<pre class="ruby"><span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">default</span>.<span class="ruby-identifier">yml</span>
+<span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">environments</span><span class="ruby-operator">/</span><span class="ruby-identifier">development</span>.<span class="ruby-identifier">yml</span>
+<span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">environments</span><span class="ruby-operator">/</span><span class="ruby-identifier">staging</span>.<span class="ruby-identifier">yml</span>
+<span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">environments</span><span class="ruby-operator">/</span><span class="ruby-identifier">production</span>.<span class="ruby-identifier">yml</span>
+<span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">local</span>
+<span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">systems</span><span class="ruby-operator">/</span><span class="ruby-identifier">reporting</span>.<span class="ruby-identifier">yml</span>
+<span class="ruby-identifier">config</span><span class="ruby-operator">/</span><span class="ruby-identifier">settings</span><span class="ruby-operator">/</span><span class="ruby-identifier">systems</span><span class="ruby-operator">/</span><span class="ruby-identifier">admin</span>.<span class="ruby-identifier">yml</span>
+</pre>
+
+<p>Note that the “local” directory is empty, and that “systems” directory
+contains several YAML files that provide alternative  configuration for a
+reporting server, and an admin server (both of which run in “production”
+rails environment).</p>
+
+<p>When deploying to the main production site, neither YAML files inside
+“systems” folder are activated or used.</p>
+
+<p>But upon deployment to the admin server, Capistrano could symlink
+“admin.yml” from config/settings/local folder, so the <a
+href="Setting.html">Setting</a> gem would load these values. So for each
+Capistrano role, you can define which files need to be symlinked into
+local, thus creating a very flexible configuration scheme that&#39;s easily
+managed by Capistrano.</p>
+
+<h2 id="label-Copyright">Copyright<span><a href="#label-Copyright">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Copyright 2010 © ModCloth Inc.</p>
+
+<p>Authors: 2010 Edwin Cruz &amp; Konstantin Gredeskoul</p>
+
+<p>See LICENSE.txt for further details.</p>
+</main>
+
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
