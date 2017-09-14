@@ -2,6 +2,23 @@
 
 This is a fork of ModCloth's mc-settings gem which has gone unmaintained and has deprection warnings.  This modernizes that and will be maintained.
 
+== Install
+
+Add to your +Gemfile+:
+
+    gem "fittings"
+
+For Rails, create +config/settings/default.yml+ as well as +config/settings/environments/{development,testing,production}.yml+.
+
+Then, in +config/environment.rb+, before the call to +initialize!+:
+
+    Setting.load(path:  "#{Rails.root}/config/settings",
+                 files: ["default.yml", "environments/#{Rails.env}.yml"])
+
+=== Why is it +Setting+?
+
+This is a fork of the mc-settings gem that is intended to be backwards-compatible.
+
 == Summary 
 
 This gem provides an easy and Capistrano-friendly way to manage application configuration across 
