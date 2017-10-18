@@ -14,6 +14,7 @@ describe Setting do
     it 'should return test specific values' do
       expect(subject.available_settings['one']).to eq("test")
       expect(subject.one).to eq("test")
+      expect(subject.respond_to?(:one)).to eq(true)
       expect(subject['one']).to eq("test")
     end
 
@@ -37,6 +38,7 @@ describe Setting do
     end
 
     it "should responds to ? mark" do
+      expect(subject.respond_to?(:autologin?)).to eq(true)
       expect(subject.autologin?).to eq(true)
     end
 
@@ -79,6 +81,7 @@ describe Setting do
     end
 
     it 'should support [] syntax' do
+      expect(subject.respond_to?(:[])).to eq(true)
       expect(subject['tax']['default']).to eq(0.0)
       expect(subject['tax']).to eq({ 'default' => 0.0, 'california' => 7.5 })
     end
