@@ -3,3 +3,4 @@ html
 pkg
 .idea
 .rvmrc
+Gemfile.lock
