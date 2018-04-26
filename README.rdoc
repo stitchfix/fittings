@@ -1,6 +1,6 @@
 = fittings
 
-This is a fork of ModCloth's mc-settings gem which has gone unmaintained and has deprection warnings.  This modernizes that and will be maintained.
+This is a fork of ModCloth's mc-settings gem which has gone unmaintained and has deprecation warnings.  This modernizes that and will be maintained.
 
 == Install
 
