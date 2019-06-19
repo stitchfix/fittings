@@ -66,7 +66,7 @@ describe Setting do
     it "should keep its values" do
       3.times do |time|
         Thread.new {
-          subject.available_settings.shoud_not be_empty
+          expect(subject.available_settings).not_to be_empty
         }
       end
     end
