@@ -63,12 +63,21 @@ describe Setting do
   end
 
   context "When running with threads" do
+    before :each do
+      subject.reload(
+         :path  => File.join(File.dirname(__FILE__)) + '/fixtures',
+         :files => ['sample.yml']
+      )
+    end
+
     it "should keep its values" do
-      3.times do |time|
+      thread_settings = 3.times.map {
         Thread.new {
-          expect(subject.available_settings).not_to be_empty
+          subject.available_settings
         }
-      end
+      }.each(&:join).map(&:value)
+
+      expect(thread_settings.any?(&:empty?)).to be false
     end
   end
 
