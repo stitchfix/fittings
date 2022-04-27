@@ -55,6 +55,16 @@ describe Setting do
       expect(subject.test_specific).to eq("exist")
     end
 
+    it "behaves uniformly, regardless of access pattern" do
+      expect(subject.two(:three)).to eq(5)
+      expect(subject.two('three')).to eq(5)
+      expect(subject.two[:three]).to eq(5)
+      expect(subject.two['three']).to eq(5)
+      expect(subject[:two][:three]).to eq(5)
+      expect(subject['two'][:three]).to eq(5)
+      expect(subject[:two]['three']).to eq(5)
+    end
+
     context "working with arrays" do
       it "should replace the whole array instead of appending new values" do
         expect(subject.nested_array).to eq(['first', 'four', 'five'])

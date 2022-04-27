@@ -1,21 +1,7 @@
 require 'singleton'
 require 'yaml'
 require 'erb'
-
-class Hash
-  def recursive_merge!(other)
-    other.keys.each do |k|
-      if self[k].is_a?(Array) && other[k].is_a?(Array)
-        self[k] = other[k]
-      elsif self[k].is_a?(Hash) && other[k].is_a?(Hash)
-        self[k].recursive_merge!(other[k])
-      else
-        self[k] = other[k]
-      end
-    end
-    self
-  end
-end
+require 'hashie'
 
 class Setting
   class NotFound < RuntimeError; end
@@ -101,7 +87,7 @@ class Setting
   #=================================================================
 
   def initialize
-    @available_settings ||= {}
+    @available_settings ||= Hashie::Mash.new
   end
 
   def has_key?(key)
@@ -133,7 +119,7 @@ class Setting
 
   # This method performs collapsing of the Hash settings values if the Hash
   # contains 'default' value, or just 1 element.
-  
+
   def collapse_hashes(v, args)
     out = if v.is_a?(Hash)
       if args.empty?
@@ -158,14 +144,14 @@ class Setting
       out
     end
   end
-  
+
   def loaded?
     @loaded
   end
 
   def load(params)
     # reset settings hash
-    @available_settings = {}
+    @available_settings = Hashie::Mash.new
     @loaded = false
 
     files = []
@@ -184,9 +170,9 @@ class Setting
         # `load` is the behavior we want (in later versions, `load` uses `safe_load`, which doesn't support aliases and
         # requires allowlisting classes used in files.
         if Psych::VERSION < '3.3.2'
-          @available_settings.recursive_merge!(YAML::load(ERB.new(IO.read(file)).result) || {}) if File.exists?(file)
+          @available_settings.deep_merge!(YAML::load(ERB.new(IO.read(file)).result) || {}) if File.exists?(file)
         else
-          @available_settings.recursive_merge!(YAML::unsafe_load(ERB.new(IO.read(file)).result) || {}) if File.exists?(file)
+          @available_settings.deep_merge!(YAML::unsafe_load(ERB.new(IO.read(file)).result) || {}) if File.exists?(file)
         end
       rescue Exception => e
         raise FileError.new("Error parsing file #{file}, with: #{e.message}")
