@@ -11,6 +11,17 @@ describe Setting do
           :local => true)
     end
 
+    it 'should access via ... something' do
+      expect(Setting.two[:three]).to eq(5)
+      expect(Setting.two['three']).to eq(5)
+      expect(Setting.two.fetch(:three)).to eq(5)
+      expect(Setting.two.fetch('three')).to eq(5)
+      expect(Setting.two).to be_a_kind_of(Hashie::Mash)
+      expect(Setting.two.symbolize_keys).to eq(nil)
+      expect(Setting.two.keys).to eq(["three", "four"])
+      expect(Setting.two).to have_key(:three)
+    end
+
     it 'should return test specific values' do
       expect(subject.available_settings['one']).to eq("test")
       expect(subject.one).to eq("test")
