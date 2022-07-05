@@ -8,6 +8,12 @@ class Setting
   class FileError < RuntimeError; end
   class AlreadyLoaded < RuntimeError; end
 
+  class SettingHash < Hash
+    include Hashie::Extensions::IndifferentAccess
+    include Hashie::Extensions::KeyConversion
+    include Hashie::Extensions::DeepMerge
+  end
+
   include Singleton
   NUM_KLASS = if RUBY_VERSION.split(/\./)[0].to_i == 2 && RUBY_VERSION.split(/\./)[1].to_i >= 4
                 Integer
@@ -87,7 +93,7 @@ class Setting
   #=================================================================
 
   def initialize
-    @available_settings ||= Hashie::Mash.new
+    @available_settings ||= SettingHash.new
   end
 
   def has_key?(key)
@@ -105,6 +111,9 @@ class Setting
     end
 
     v = @available_settings[name]
+    if v.is_a?(Hash)
+      v = SettingHash[v]
+    end
     if block_given?
       v = yield(v, args)
     end
@@ -151,7 +160,7 @@ class Setting
 
   def load(params)
     # reset settings hash
-    @available_settings = Hashie::Mash.new
+    @available_settings = SettingHash.new
     @loaded = false
 
     files = []
