@@ -48,8 +48,8 @@ CONTENT
       default: "seven from custom"
   CONTENT
 
-  allow(File).to receive(:exists?).and_return(true)
-  allow(File).to receive(:exists?).with("config/settings/environments/development.yml").and_return(false)
+  allow(File).to receive(:exist?).and_return(true)
+  allow(File).to receive(:exist?).with("config/settings/environments/development.yml").and_return(false)
   allow(IO).to receive(:read).with("config/settings/default.yml").and_return(defaults)
   allow(IO).to receive(:read).with("config/settings/environments/test.yml").and_return(test)
   allow(IO).to receive(:read).with("config/settings/local/custom.yml").and_return(custom)
