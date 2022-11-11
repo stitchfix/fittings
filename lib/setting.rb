@@ -174,9 +174,9 @@ class Setting
         # `load` is the behavior we want (in later versions, `load` uses `safe_load`, which doesn't support aliases and
         # requires allowlisting classes used in files.
         if Psych::VERSION < '3.3.2'
-          @available_settings.deep_merge!(YAML::load(ERB.new(IO.read(file)).result) || {}) if File.exists?(file)
+          @available_settings.deep_merge!(YAML::load(ERB.new(IO.read(file)).result) || {}) if File.exist?(file)
         else
-          @available_settings.deep_merge!(YAML::unsafe_load(ERB.new(IO.read(file)).result) || {}) if File.exists?(file)
+          @available_settings.deep_merge!(YAML::unsafe_load(ERB.new(IO.read(file)).result) || {}) if File.exist?(file)
         end
       rescue Exception => e
         raise FileError.new("Error parsing file #{file}, with: #{e.message}")
