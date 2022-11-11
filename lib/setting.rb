@@ -15,11 +15,6 @@ class Setting
   end
 
   include Singleton
-  NUM_KLASS = if RUBY_VERSION.split(/\./)[0].to_i == 2 && RUBY_VERSION.split(/\./)[1].to_i >= 4
-                Integer
-              else
-                Fixnum
-              end
 
   attr_reader :available_settings
 
@@ -119,7 +114,7 @@ class Setting
     end
 
 
-    if v.is_a?(NUM_KLASS) && bool
+    if v.is_a?(Integer) && bool
       v.to_i > 0
     else
       v
