@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 2.4.0"
   s.add_dependency "hashie"
+  s.add_development_dependency "stitchfix-y"
   s.add_development_dependency "rspec"
   s.add_development_dependency "rake"
   s.add_development_dependency "rdoc"
