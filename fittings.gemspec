@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "fittings"
-  s.version = "1.0.0"
+  s.version = "1.1.0"
 
   s.authors = ["Edwin Cruz", "Colin Shield"]
   s.date = %q{2011-09-06}
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.executables   = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.required_ruby_version = ">= 2.4.0"
   s.add_dependency "hashie"
   s.add_development_dependency "rspec"
   s.add_development_dependency "rake"

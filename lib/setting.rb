@@ -15,11 +15,6 @@ class Setting
   end
 
   include Singleton
-  NUM_KLASS = if RUBY_VERSION.split(/\./)[0].to_i == 2 && RUBY_VERSION.split(/\./)[1].to_i >= 4
-                Integer
-              else
-                Fixnum
-              end
 
   attr_reader :available_settings
 
@@ -119,7 +114,7 @@ class Setting
     end
 
 
-    if v.is_a?(NUM_KLASS) && bool
+    if v.is_a?(Integer) && bool
       v.to_i > 0
     else
       v
@@ -179,9 +174,9 @@ class Setting
         # `load` is the behavior we want (in later versions, `load` uses `safe_load`, which doesn't support aliases and
         # requires allowlisting classes used in files.
         if Psych::VERSION < '3.3.2'
-          @available_settings.deep_merge!(YAML::load(ERB.new(IO.read(file)).result) || {}) if File.exists?(file)
+          @available_settings.deep_merge!(YAML::load(ERB.new(IO.read(file)).result) || {}) if File.exist?(file)
         else
-          @available_settings.deep_merge!(YAML::unsafe_load(ERB.new(IO.read(file)).result) || {}) if File.exists?(file)
+          @available_settings.deep_merge!(YAML::unsafe_load(ERB.new(IO.read(file)).result) || {}) if File.exist?(file)
         end
       rescue Exception => e
         raise FileError.new("Error parsing file #{file}, with: #{e.message}")
