@@ -16,6 +16,7 @@ class Setting
     include Hashie::Extensions::Coercion
     coerce_value Hash, SettingHash
 
+    # https://github.com/hashie/hashie#coercion
     def initialize(hash = {})
       super
       hash.each_pair do |k,v|
