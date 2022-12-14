@@ -8,12 +8,6 @@ class Setting
   class FileError < RuntimeError; end
   class AlreadyLoaded < RuntimeError; end
 
-  class SettingHash < Hash
-    include Hashie::Extensions::IndifferentAccess
-    include Hashie::Extensions::KeyConversion
-    include Hashie::Extensions::DeepMerge
-  end
-
   include Singleton
 
   attr_reader :available_settings
@@ -88,7 +82,7 @@ class Setting
   #=================================================================
 
   def initialize
-    @available_settings ||= SettingHash.new
+    @available_settings ||= Hashie::Mash.new
   end
 
   def has_key?(key)
@@ -106,9 +100,6 @@ class Setting
     end
 
     v = @available_settings[name]
-    if v.is_a?(Hash)
-      v = SettingHash[v]
-    end
     if block_given?
       v = yield(v, args)
     end
@@ -155,7 +146,7 @@ class Setting
 
   def load(params)
     # reset settings hash
-    @available_settings = SettingHash.new
+    @available_settings = Hashie::Mash.new
     @loaded = false
 
     files = []

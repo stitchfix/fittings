@@ -63,7 +63,6 @@ describe Setting do
       expect(subject[:two][:three]).to eq(5)
       expect(subject['two'][:three]).to eq(5)
       expect(subject[:two]['three']).to eq(5)
-      expect(subject[:two].symbolize_keys[:three]).to eq(5)
     end
 
     context "working with arrays" do
