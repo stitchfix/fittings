@@ -31,5 +31,7 @@ color:
       :yellow
     school:
       :black
-     
+nested:
+  again:
+    a_key: 42
 

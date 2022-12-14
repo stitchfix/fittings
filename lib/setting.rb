@@ -13,7 +13,6 @@ class Setting
     include Hashie::Extensions::KeyConversion
     include Hashie::Extensions::DeepMerge
     include Hashie::Extensions::MethodAccess
-    include Hashie::Extensions::MergeInitializer
   end
 
   include Singleton
@@ -170,17 +169,15 @@ class Setting
       files << Dir.glob(File.join(path, 'local', '*.yml')).sort
     end
 
-    m = Proc.new { |k, h_k, v| SettingHash.new(k: v) }
-
     files.flatten.each do |file|
       begin
         # Ruby versions before 3.0.3 include Psych < 3.3.2, which does not include `unsafe_load`. In those versions,
         # `load` is the behavior we want (in later versions, `load` uses `safe_load`, which doesn't support aliases and
         # requires allowlisting classes used in files.
         if Psych::VERSION < '3.3.2'
-          @available_settings.deep_merge!(YAML::load(ERB.new(IO.read(file)).result) || {}, &m) if File.exist?(file)
+          @available_settings.deep_merge!(YAML::load(ERB.new(IO.read(file)).result) || {}) if File.exist?(file)
         else
-          @available_settings.deep_merge!(YAML::unsafe_load(ERB.new(IO.read(file)).result, &m) || {}) if File.exist?(file)
+          @available_settings.deep_merge!(YAML::unsafe_load(ERB.new(IO.read(file)).result) || {}) if File.exist?(file)
         end
       rescue Exception => e
         raise FileError.new("Error parsing file #{file}, with: #{e.message}")
