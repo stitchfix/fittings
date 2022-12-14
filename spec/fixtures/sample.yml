@@ -34,4 +34,7 @@ color:
 nested:
   again:
     a_key: 42
-
+    another_key: 17
+  once_more:
+    a_key: 21
+    another_key: 50

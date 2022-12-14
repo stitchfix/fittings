@@ -13,6 +13,15 @@ class Setting
     include Hashie::Extensions::KeyConversion
     include Hashie::Extensions::DeepMerge
     include Hashie::Extensions::MethodAccess
+    include Hashie::Extensions::Coercion
+    coerce_value Hash, SettingHash
+
+    def initialize(hash = {})
+      super
+      hash.each_pair do |k,v|
+        self[k] = v
+      end
+    end
   end
 
   include Singleton
