@@ -119,8 +119,11 @@ describe Setting do
       expect(subject.states(:ship_to)).to  eq(['CA', 'NY'])
     end
 
-    it "should allow chained method calls when there isn't a 'default' key" do
-      expect(subject.nested.again.a_key).to eq(42)
+    context "when there isn't a 'default' key and there is more than one key" do
+      it "should allow chained method calls" do
+        # and there
+        expect(subject.nested.again.a_key).to eq(42)
+      end
     end
 
     it 'should correctly process Boolean values' do
