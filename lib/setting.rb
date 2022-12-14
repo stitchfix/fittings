@@ -82,7 +82,7 @@ class Setting
   #=================================================================
 
   def initialize
-    @available_settings ||= Hashie::Mash.new
+    @available_settings ||= Hashie::Mash.quiet(:default).new
   end
 
   def has_key?(key)
@@ -146,7 +146,7 @@ class Setting
 
   def load(params)
     # reset settings hash
-    @available_settings = Hashie::Mash.new
+    @available_settings = Hashie::Mash.quiet(:default).new
     @loaded = false
 
     files = []
