@@ -56,6 +56,9 @@ describe Setting do
     end
 
     it "behaves uniformly, regardless of access pattern" do
+      expect(subject.two).to be_a_kind_of(Hashie::Mash)
+      expect(subject.two.keys).to eq(["three", "four"])
+      expect(subject.two).to have_key(:three)
       expect(subject.two(:three)).to eq(5)
       expect(subject.two('three')).to eq(5)
       expect(subject.two[:three]).to eq(5)
@@ -63,7 +66,8 @@ describe Setting do
       expect(subject[:two][:three]).to eq(5)
       expect(subject['two'][:three]).to eq(5)
       expect(subject[:two]['three']).to eq(5)
-      expect(subject[:two].symbolize_keys[:three]).to eq(5)
+      expect(subject.two.fetch(:three)).to eq(5)
+      expect(subject.two.fetch('three')).to eq(5)
     end
 
     context "working with arrays" do
