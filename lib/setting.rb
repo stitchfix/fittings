@@ -82,7 +82,7 @@ class Setting
   #=================================================================
 
   def initialize
-    @available_settings ||= Hashie::Mash.quiet(:default).new
+    @available_settings ||= new_available_settings
   end
 
   def has_key?(key)
@@ -146,7 +146,7 @@ class Setting
 
   def load(params)
     # reset settings hash
-    @available_settings = Hashie::Mash.quiet(:default).new
+    @available_settings = new_available_settings
     @loaded = false
 
     files = []
@@ -176,5 +176,18 @@ class Setting
 
     @loaded = true
     @available_settings
+  end
+
+  private 
+
+  def new_available_settings
+    # Spectre and other monoliths are tied to Hashie 3.x
+    # so once that isn't a problem and all apps can use Hashie >= 4.0
+    # then then Hashie::Mash.quiet can become the default.
+    if Hashie::Mash.respond_to?(:quiet)
+      Hashie::Mash.quiet(:default).new
+    else
+      Hashie::Mash.new
+    end
   end
 end

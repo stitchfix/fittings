@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "fittings"
-  s.version = "3.0.1"
+  s.version = "3.0.2"
 
   s.authors = ["Edwin Cruz", "Colin Shield"]
   s.date = %q{2011-09-06}
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.required_ruby_version = ">= 2.4.0"
-  s.add_dependency("hashie", ">= 4.0")
+  s.add_dependency("hashie")
   s.add_development_dependency "rspec"
   s.add_development_dependency "rake"
   s.add_development_dependency "rdoc"
