@@ -8,6 +8,8 @@ class Setting
   class FileError < RuntimeError; end
   class AlreadyLoaded < RuntimeError; end
 
+  TOLERATED_RELOAD_COUNT = 1
+
   include Singleton
 
   attr_reader :available_settings
@@ -25,7 +27,18 @@ class Setting
   # by design.  See README for more details.
   #
   def self.load(args = {})
-    raise AlreadyLoaded.new('Settings already loaded') if self.instance.loaded?
+    if self.instance.loaded?
+      @reload_count ||= 0
+      @reload_count += 1
+      if @reload_count <= TOLERATED_RELOAD_COUNT
+        raise AlreadyLoaded.new('Settings already loaded')
+      else
+        puts
+        puts "!!! Settings reloaded loop detected, exiting !!!"
+        puts
+        exit!
+      end
+    end
     self.instance.load(args)
   end
 
@@ -178,7 +191,7 @@ class Setting
     @available_settings
   end
 
-  private 
+  private
 
   def new_available_settings
     # Spectre and other monoliths are tied to Hashie 3.x
